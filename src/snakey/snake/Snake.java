@@ -6,7 +6,8 @@ package snakey.snake;
 
 import java.awt.Point;
 import java.util.ArrayList;
-import static snakey.snake.Direction.*;
+import static snakey.snake.Direction.DOWN;
+import static snakey.snake.Direction.UP;
 
 /**
  *
@@ -14,10 +15,11 @@ import static snakey.snake.Direction.*;
  */
 public class Snake {
     private ArrayList<Point> body;
-    private Direction direction = Direction.RIGHT;
+    private Direction direction = Direction.LEFT;
+
     
     {
-        body = new ArrayList<>();
+        body = new ArrayList<Point>();
     }
 
     
@@ -47,8 +49,9 @@ public class Snake {
                 y = 0;
         }
         
-        body.add(0, new Point(getHead().x + x, getHead().y + y));
-        body.remove(body.size()-1);
+       getBody().add(0, new Point(getHead().x + x, getHead().y + y));
+       
+       getBody().remove(getBody().size() - 1);
     }
     
     public Point getHead(){
