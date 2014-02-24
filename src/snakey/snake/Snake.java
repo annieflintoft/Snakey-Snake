@@ -16,7 +16,7 @@ import static snakey.snake.Direction.UP;
 public class Snake {
     private ArrayList<Point> body;
     private Direction direction = Direction.LEFT;
-
+    private int growthcounter = 0;
     
     {
         body = new ArrayList<Point>();
@@ -51,11 +51,37 @@ public class Snake {
         
        getBody().add(0, new Point(getHead().x + x, getHead().y + y));
        
-       getBody().remove(getBody().size() - 1);
+       if (growthcounter > 0){
+           growthcounter --;
+       } else {
+            getBody().remove(getBody().size() - 1);    
+       }
+       
     }
     
     public Point getHead(){
         return body.get(0);
+    }
+   
+    public boolean selfHitTest(){
+        for (int i = 1; i < body.size(); i++) {
+            if (body.get(i).equals(getHead())) {
+                return true;
+            }
+            
+        }
+        
+        return false;
+    }
+    
+    public boolean intersects(Point location) {
+        for (Point bodyLocation : body) {
+            if (bodyLocation.equals(location)) {
+                return true;
+            }
+            
+        }
+        return false;
     }
     
     /**
@@ -78,6 +104,15 @@ public class Snake {
     public Direction getDirection() {
         return direction;
     }
+    public int getGrowthcounter(){
+        return growthcounter;
+    }
+    public void setGrowthcounter(int growthcounter){
+        this.growthcounter = growthcounter;
+    }
+    public void addGrowthcounter(int growthcounter){
+        this.growthcounter += growthcounter;
+    }
 
     /**
      * @param direction the direction to set
@@ -85,5 +120,6 @@ public class Snake {
     public void setDirection(Direction direction) {
         this.direction = direction;
     }
+    
     
 }

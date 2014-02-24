@@ -4,6 +4,7 @@
  */
 package snakey.snake;
 
+import audio.AudioPlayer;
 import environment.Environment;
 import environment.GraphicsPalette;
 import environment.Grid;
@@ -11,11 +12,14 @@ import image.ResourceTools;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.Point;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
+//
+//        // draw stem
 /**
  *
  * @author macbook
@@ -25,35 +29,43 @@ class SnakeEnvironment extends Environment {
     private Grid grid;
     private int score = 0;
     private Snake snake;
-    private ArrayList<Point> apples;
-    private int speed = 5;
+    //private ArrayList<Point> apples;
+    private int speed = 2;
     private int moveCounter = speed;
     private int i;
+    private GameState gameState;
+    private ArrayList<Point> lollipops;
+    private Point cellLocation;
+    private Image lollipop;
 
     public SnakeEnvironment() {
     }
 
     @Override
     public void initializeEnvironment() {
-        this.setBackground(ResourceTools.loadImageFromResource("resources/grass.jpg"));
+        this.setBackground(ResourceTools.loadImageFromResource("resources/sparklez.jpg"));
+        this.lollipop = ResourceTools.loadImageFromResource("resources/suckers.png");
 
         this.grid = new Grid();
         this.grid.setColor(Color.BLACK);
         this.grid.setColumns(44);
-        this.grid.setRows(15);
+        this.grid.setRows(25);
         this.grid.setCellHeight(20);
         this.grid.setCellWidth(20);
         this.grid.setPosition(new Point(10, 100));
 
-        this.apples = new ArrayList<Point>();
-        this.apples.add(new Point(10, 12));
-        this.apples.add(new Point(5, 17));
+        //44 x 24
+
+        this.lollipops = new ArrayList<Point>();
+        for (int j = 0; j < 10; j++) {
+            this.lollipops.add(new Point(getRandomGridPoint()));
+        }
 
         this.snake = new Snake();
         this.snake.getBody().add(new Point(5, 5));
         this.snake.getBody().add(new Point(5, 4));
         this.snake.getBody().add(new Point(5, 3));
-        this.snake.getBody().add(new Point(4, 3));
+        this.snake.getBody().add(new Point(5, 2));
 
     }
 
@@ -72,14 +84,31 @@ class SnakeEnvironment extends Environment {
                 checkSnakeIntersection();
             } else {
                 moveCounter--;
+                if (snake.selfHitTest()) {
+                }
             }
+        }
+        if (snake.getHead().x < 0) {
+            snake.getHead().x = grid.getColumns();
+        } else if (snake.getHead().x > grid.getColumns()) {
+            snake.getHead().x = 0;
+        } else if (snake.getHead().y < 0) {
+            snake.getHead().y = grid.getRows();
+        } else if (snake.getHead().y > grid.getRows()) {
+            snake.getHead().y = 0;
         }
     }
 
     @Override
     public void keyPressedHandler(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-            this.score += 100000;
+
+            if (gameState == GameState.RUNNING) {
+                gameState = GameState.PAUSED;
+            } else if (gameState == GameState.PAUSED) {
+                gameState = GameState.RUNNING;
+            }
+            this.score += 100;
 
         } else if (e.getKeyCode() == KeyEvent.VK_M) {
             snake.move();
@@ -110,52 +139,75 @@ class SnakeEnvironment extends Environment {
     @Override
     public void paintEnvironment(Graphics graphics) {
         if (this.grid != null) {
-            grid.paintComponent(graphics);
-
-            if (this.apples != null) {
-                for (int i = 0; i < this.apples.size(); i++) {
-                    GraphicsPalette.drawApple(graphics, this.grid.getCellPosition(this.apples.get(i)), this.grid.getCellSize());
+            //grid.paintComponent(graphics);
+            if (this.lollipops != null) {
+                for (int i = 0; i < this.lollipops.size() - 1; i++) {
+                    graphics.drawImage(lollipop, this.grid.getCellPosition(lollipops.get(i)).x, this.grid.getCellPosition(lollipops.get(i)).y, this.grid.getCellWidth(), this.grid.getCellHeight(), this);
                 }
             }
+        }
 
-            graphics.setColor(Color.PINK);
-            Point cellLocation;
-            if (snake != null) {
-                for (int i = 0; i < snake.getBody().size(); i++) {
-                    cellLocation = grid.getCellPosition(snake.getBody().get(i));
-                    graphics.fillOval(cellLocation.x, cellLocation.y, grid.getCellWidth(), grid.getCellHeight());
+        //  graphics.drawImage(lollipop, 50, 50, 40, 50, this);
+
+
+        if (snake != null) {
+            for (int i = 0; i < snake.getBody().size(); i++) {
+                if (i == 0) {
+                    graphics.setColor(new Color(220, 20, 60));
+                } else {
+                    graphics.setColor(new Color(220, 20, 60));
                 }
+
+                cellLocation = grid.getCellPosition(snake.getBody().get(i));
+
+                graphics.fillOval(cellLocation.x, cellLocation.y, grid.getCellWidth(), grid.getCellHeight());
+
             }
-//            } else {
-//                //body
-//                graphics.setColor(Color.MAGENTA);
-//                cellLocation = grid.getCellPosition(snake.getBody().get(j));
-//                graphics.fillOval(cellLocation.x, cellLocation.y, grid.getCellWidth(), grid.getCellHeight());
-//            }
+        }
 
-//                GraphicsPalette.drawPoisonBottle(graphics, new Point (100, 100), new Point (20, 20), Color.yellow);
-//                GraphicsPalette.drawUnicorn(graphics, new Point (200, 200), new Point (200, 200), Color.yellow, environment.Direction.NORTH);
-
-
-//                       cellLocation = grid.getCellPosition(snake.getBody().get(i));
-//                       graphics.fillOval(cellLocation.x, cellLocation.y, grid.getCellWidth(), grid.getCellHeight());
-//                   }
-
-
+        graphics.setColor(Color.PINK);
+        Point cellLocation;
+        if (snake
+                != null) {
+            for (int i = 0; i < snake.getBody().size(); i++) {
+                cellLocation = grid.getCellPosition(snake.getBody().get(i));
+                graphics.fillOval(cellLocation.x, cellLocation.y, grid.getCellWidth(), grid.getCellHeight());
+            }
         }
 
         graphics.setColor(Color.BLACK);
-        graphics.setFont(new Font("CenturyGothic", Font.BOLD, 60));
-        graphics.drawString("Score: " + this.score, 50, 50);
+        if (snake
+                != null) {
+            for (int i = 0; i < snake.getBody().size(); i++) {
+                cellLocation = grid.getCellPosition(snake.getBody().get(i));
+                graphics.drawOval(cellLocation.x, cellLocation.y, grid.getCellWidth(), grid.getCellHeight());
+            }
+        }
+        if (gameState == GameState.ENDED) {
+            graphics.setFont(new Font("Calibri", Font.ITALIC, 100));
+            graphics.drawString("Game Over!!!", 50, 50);
+        }
 
+        graphics.setColor(Color.BLACK);
+
+        graphics.setFont(
+                new Font("CenturyGothic", Font.BOLD, 60));
+        graphics.drawString(
+                "Score: " + this.score, 50, 50);
     }
 
     private void checkSnakeIntersection() {
-        for (int i = 0; i < this.apples.size(); i++) {
-            if (snake.getHead().equals(this.apples.get(i))) {
-
-                System.out.println("APPLE CHOOOOOOMP!!!!");
-            }
+        for (int i = 0; i < this.lollipops.size(); i++) {
+            if (snake.getHead().equals(this.lollipops.get(i))) {
+                this.lollipops.get(i).setLocation(getRandomGridLocation());
+                this.snake.addGrowthcounter(moveCounter);
+                this.score += 10;
+                System.out.println("NOMNOMNOM!!!!");
+                }
         }
+    }
+
+    private Point getRandomGridPoint() {
+        return new Point((int) (Math.random() * this.grid.getColumns()), (int) (Math.random() * this.grid.getRows()));
     }
 }
