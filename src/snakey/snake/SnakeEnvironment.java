@@ -203,6 +203,7 @@ class SnakeEnvironment extends Environment {
                 this.snake.addGrowthcounter(moveCounter);
                 this.score += 10;
                 System.out.println("NOMNOMNOM!!!!");
+                AudioPlayer.play("/resources/crunch.wav");
                 }
         }
     }
