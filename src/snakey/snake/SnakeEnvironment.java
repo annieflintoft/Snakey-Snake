@@ -93,7 +93,6 @@ class SnakeEnvironment extends Environment {
     private Point getRandomGridLocation() {
         return new Point((int) (Math.random() * this.grid.getColumns()),
                 (int) (Math.random() * this.grid.getRows()));
-
     }
 
     @Override
@@ -109,6 +108,7 @@ class SnakeEnvironment extends Environment {
                 }
             }
         }
+        
         if (snake.getHead().x < 0) {
             snake.getHead().x = grid.getColumns();
         } else if (snake.getHead().x > grid.getColumns()) {
@@ -185,31 +185,21 @@ class SnakeEnvironment extends Environment {
                     GraphicsPalette.drawBomb(graphics, this.grid.getCellPosition(this.bombs.get(l)), this.grid.getCellSize(), Color.BLACK);
                 }
             }
-            
-            
-            
-            
         }
-
-        //  graphics.drawImage(lollipop, 50, 50, 40, 50, this);
-
 
         if (snake != null) {
             for (int i = 0; i < snake.getBody().size(); i++) {
                 if (i == 0) {
-                    graphics.setColor(new Color(220, 20, 60));
+                    graphics.setColor(snake.getHeadColor());
                 } else {
-                    graphics.setColor(new Color(220, 20, 60, 60));
+                    graphics.setColor(snake.getBodyColor());
                 }
 
                 cellLocation = grid.getCellPosition(snake.getBody().get(i));
-
                 graphics.fillOval(cellLocation.x, cellLocation.y, grid.getCellWidth(), grid.getCellHeight());
-
             }
         }
 
-        graphics.setColor(Color.PINK);
         Point cellLocation;
         if (snake != null) {
             for (int i = 0; i < snake.getBody().size(); i++) {
@@ -273,6 +263,9 @@ class SnakeEnvironment extends Environment {
                 this.bombs.get(l).setLocation(getRandomGridLocation());
                 this.snake.addGrowthcounter(moveCounter);
                 this.score -= 30;
+                snake.setBodyColor(Color.BLACK);
+                
+                System.out.println("BOMB a");
                 
             }
         }

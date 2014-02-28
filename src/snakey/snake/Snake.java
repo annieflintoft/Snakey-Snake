@@ -88,8 +88,8 @@ public class Snake {
     private ArrayList<Point> body;
     private Direction direction = Direction.LEFT;
     private int growthcounter = 0;
-    private Color headColor = new Color(220, 20, 60);
-    private Color bodyColor = new Color(220, 20, 60);
+    private Color headColor = Color.PINK;
+    private Color bodyColor = Color.PINK;
     
     /**
      * @return the body
