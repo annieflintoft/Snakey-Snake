@@ -4,6 +4,7 @@
  */
 package snakey.snake;
 
+import java.awt.Color;
 import java.awt.Point;
 import java.util.ArrayList;
 import static snakey.snake.Direction.DOWN;
@@ -14,15 +15,13 @@ import static snakey.snake.Direction.UP;
  * @author macbook
  */
 public class Snake {
-    private ArrayList<Point> body;
-    private Direction direction = Direction.LEFT;
-    private int growthcounter = 0;
     
     {
         body = new ArrayList<Point>();
     }
 
     
+    //<editor-fold defaultstate="collapsed" desc="Methods">
     public void move(){
         //Create a new location for the head; using the direction.
         int x = 0;
@@ -33,7 +32,7 @@ public class Snake {
                 x = 0;
                 y = -1;
                 break;
-             
+                
             case DOWN:
                 x = 0;
                 y = 1;
@@ -43,26 +42,26 @@ public class Snake {
                 x = 1;
                 y = 0;
                 break;
-            
+                
             case LEFT:
                 x = -1;
                 y = 0;
         }
         
-       getBody().add(0, new Point(getHead().x + x, getHead().y + y));
-       
-       if (growthcounter > 0){
-           growthcounter --;
-       } else {
-            getBody().remove(getBody().size() - 1);    
-       }
-       
+        getBody().add(0, new Point(getHead().x + x, getHead().y + y));
+        
+        if (growthcounter > 0){
+            growthcounter --;
+        } else {
+            getBody().remove(getBody().size() - 1);
+        }
+        
     }
     
     public Point getHead(){
         return body.get(0);
     }
-   
+    
     public boolean selfHitTest(){
         for (int i = 1; i < body.size(); i++) {
             if (body.get(i).equals(getHead())) {
@@ -83,6 +82,14 @@ public class Snake {
         }
         return false;
     }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Properties">
+    private ArrayList<Point> body;
+    private Direction direction = Direction.LEFT;
+    private int growthcounter = 0;
+    private Color headColor = new Color(220, 20, 60);
+    private Color bodyColor = new Color(220, 20, 60);
     
     /**
      * @return the body
@@ -90,14 +97,14 @@ public class Snake {
     public ArrayList<Point> getBody() {
         return body;
     }
-
+    
     /**
      * @param body the body to set
      */
     public void setBody(ArrayList<Point> body) {
         this.body = body;
     }
-
+    
     /**
      * @return the direction
      */
@@ -113,21 +120,49 @@ public class Snake {
     public void addGrowthcounter(int growthcounter){
         this.growthcounter += growthcounter;
     }
-
+    
     /**
      * @param direction the direction to set
      */
     public void setDirection(Direction direction) {
         this.direction = direction;
     }
-
+    
     void add(Point point) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
+    
     int size() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
+    /**
+     * @return the bodyColor
+     */
+    public Color getBodyColor() {
+        return bodyColor;
+    }
+    
+    /**
+     * @param bodyColor the bodyColor to set
+     */
+    public void setBodyColor(Color bodyColor) {
+        this.bodyColor = bodyColor;
+    }
+    
+    /**
+     * @return the headColor
+     */
+    public Color getHeadColor() {
+        return headColor;
+    }
+    
+    /**
+     * @param headColor the headColor to set
+     */
+    public void setHeadColor(Color headColor) {
+        this.headColor = headColor;
+    }
+    //</editor-fold>  
     
 }

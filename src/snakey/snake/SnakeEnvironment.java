@@ -29,7 +29,6 @@ class SnakeEnvironment extends Environment {
     private Grid grid;
     private int score = 0;
     private Snake snake;
-    //private ArrayList<Point> apples;
     private int speed = 2;
     private int moveCounter = speed;
     private int i;
@@ -63,11 +62,6 @@ class SnakeEnvironment extends Environment {
         this.grid.setPosition(new Point(10, 100));
 
         //44 x 24
-
-        this.bombs = new ArrayList<Point>();
-        for (int j = 0; j < 10; j++) {
-            this.bombs.add(new Point(getRandomGridPoint()));
-        }
         
         this.lollipops = new ArrayList<Point>();
         for (int j = 0; j < 10; j++) {
@@ -82,6 +76,11 @@ class SnakeEnvironment extends Environment {
         this.diamonds = new ArrayList<Point>();
         for (int k = 0; k < 5; k++) {
             this.diamonds.add(new Point(getRandomGridPoint()));            
+        }
+        
+        this.bombs = new ArrayList<Point>();
+        for (int l = 0; l < 10; l++) {
+            this.bombs.add((new Point(getRandomGridPoint())));
         }
 
         this.snake = new Snake();
@@ -164,7 +163,7 @@ class SnakeEnvironment extends Environment {
             //grid.paintComponent(graphics);
             if (this.lollipops != null) {
                 for (int i = 0; i < this.lollipops.size() - 1; i++) {
-                    graphics.drawImage(lollipop, this.grid.getCellPosition(lollipops.get(i)).x, this.grid.getCellPosition(lollipops.get(i)).y, this.grid.getCellWidth(), this.grid.getCellHeight(), this);
+                    graphics.drawImage(lollipop, this.grid.getCellPosition(lollipops.get(i)).x, this.grid.getCellPosition(lollipops.get(i)).y, this.grid.getCellWidth() - 6, this.grid.getCellHeight(), this);
                 }
             }
             
@@ -182,8 +181,8 @@ class SnakeEnvironment extends Environment {
             }
             
             if (this.bombs != null) {
-                for (int k = 0; k < this.bombs.size() - 1; k++) {
-                    GraphicsPalette.drawBomb(graphics, this.grid.getCellPosition(this.bombs.get(k)), this.grid.getCellSize(), Color.BLACK);
+                for (int l = 0; l < this.bombs.size() - 1; l++) {
+                    GraphicsPalette.drawBomb(graphics, this.grid.getCellPosition(this.bombs.get(l)), this.grid.getCellSize(), Color.BLACK);
                 }
             }
             
@@ -200,7 +199,7 @@ class SnakeEnvironment extends Environment {
                 if (i == 0) {
                     graphics.setColor(new Color(220, 20, 60));
                 } else {
-                    graphics.setColor(new Color(220, 20, 60));
+                    graphics.setColor(new Color(220, 20, 60, 60));
                 }
 
                 cellLocation = grid.getCellPosition(snake.getBody().get(i));
@@ -260,11 +259,20 @@ class SnakeEnvironment extends Environment {
         }
         
         for (int k = 0; k < this.diamonds.size(); k++) {
-            if (snake.getHead().equals(this.stars.get(k))) {
+            if (snake.getHead().equals(this.diamonds.get(k))) {
                 this.diamonds.get(k).setLocation(getRandomGridLocation());
                 this.snake.addGrowthcounter(moveCounter);
                 this.score += 30;
                 AudioPlayer.play("/resources/ding.wav");
+                
+            }
+        }
+        
+        for (int l = 0; l < this.bombs.size(); l++) {
+            if (snake.getHead().equals(this.bombs.get(l))) {
+                this.bombs.get(l).setLocation(getRandomGridLocation());
+                this.snake.addGrowthcounter(moveCounter);
+                this.score -= 30;
                 
             }
         }
