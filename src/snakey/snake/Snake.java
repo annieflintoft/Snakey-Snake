@@ -120,6 +120,14 @@ public class Snake {
     public void setDirection(Direction direction) {
         this.direction = direction;
     }
+
+    void add(Point point) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    int size() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
     
 }
