@@ -5,6 +5,7 @@
 package snakey.snake;
 
 import environment.ApplicationStarter;
+import java.awt.Dimension;
 
 /**
  *
@@ -20,6 +21,7 @@ public class SnakeySnake {
     }
 
     private static void start() {
-        ApplicationStarter.run("SnakeySnake", new SnakeEnvironment());
+//        ApplicationStarter.run("SnakeySnake", new SnakeEnvironment());
+        ApplicationStarter.run(new String[0], "Snakey Snake", new Dimension(925, 655), new SnakeEnvironment());
     }
 }

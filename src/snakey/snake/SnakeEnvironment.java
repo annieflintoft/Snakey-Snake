@@ -32,7 +32,7 @@ class SnakeEnvironment extends Environment {
     private int speed = 3;
     private int moveCounter = speed;
     private int i;
-    private GameState gameState = GameState.PAUSED;
+    private GameState gameState = GameState.STARTING;
     private ArrayList<Point> bombs;
     private ArrayList<Point> lollipops;
     private ArrayList<Point> stars;
@@ -50,7 +50,7 @@ class SnakeEnvironment extends Environment {
 
     @Override
     public void initializeEnvironment() {
-        gameState = GameState.PAUSED;
+        gameState = GameState.STARTING;
 
         this.setBackground(ResourceTools.loadImageFromResource("resources/sparklez.jpg"));
         this.lollipop = ResourceTools.loadImageFromResource("resources/suckers.png");
@@ -148,6 +148,8 @@ class SnakeEnvironment extends Environment {
                 gameState = GameState.PAUSED;
             } else if (gameState == GameState.PAUSED) {
                 gameState = GameState.RUNNING;
+            } else if (gameState == GameState.STARTING) {
+                gameState = GameState.RUNNING;
             }
 
 
@@ -177,29 +179,54 @@ class SnakeEnvironment extends Environment {
 
     @Override
     public void environmentMouseClicked(MouseEvent e) {
+        System.out.println("mouse click = " + e.getX() + ", " + e.getY());
     }
 
     @Override
     public void paintEnvironment(Graphics graphics) {
-
-        if (gameState == GameState.ENDED) {
+        if (gameState == GameState.STARTING) {
+            graphics.setColor(Color.BLACK);
+            graphics.setFont(new Font("ComicSansMS", Font.CENTER_BASELINE, 100));
+            graphics.drawString("Snakey Snake", 120, 250);
+            
+            graphics.setColor(Color.PINK);
+            graphics.setFont(new Font("ComicSansMS", Font.CENTER_BASELINE, 100));
+            graphics.drawString("Snakey Snake", 125, 255);
+            
+            graphics.setColor(Color.BLACK);
+            graphics.setFont(new Font("ComicSansMS", Font.CENTER_BASELINE, 35));
+            graphics.drawString("Start", 225, 400);
+            
+            graphics.setColor(Color.PINK);
+            graphics.setFont(new Font("ComicSansMS", Font.CENTER_BASELINE, 35));
+            graphics.drawString("Start", 227, 402);
+            
+            graphics.setColor(Color.BLACK);
+            graphics.setFont(new Font("ComicSansMS", Font.CENTER_BASELINE, 35));
+            graphics.drawString("Instructions", 475, 400);
+            
+            graphics.setColor(Color.PINK);
+            graphics.setFont(new Font("ComicSansMS", Font.CENTER_BASELINE, 35));
+            graphics.drawString("Instructions", 475, 400);
+            
+//            Annie - put all the start stuff here
+            
+            
+        } else if (gameState == GameState.ENDED) {
             graphics.setColor(Color.BLACK);
 
             graphics.setFont(new Font("ArialBlack", Font.CENTER_BASELINE, 100));
             graphics.drawString("GAME OVER", 120, 300);
-
-        }
-
-        if (gameState == GameState.RUNNING) {
-            graphics.setFont(new Font("ComicSansMS", Font.BOLD, 60));
-            graphics.drawString("Your Score: " + this.score, 50, 50);
-
-        }
-
-        if (gameState == GameState.PAUSED) {
+        } else if (gameState == GameState.PAUSED) {
             graphics.setFont(new Font("ComicSansMS", Font.CENTER_BASELINE, 100));
             graphics.drawString("PAUSED", 120, 300);
         } else {
+            
+            graphics.drawRect(this.grid.getPosition().x, this.grid.getPosition().y, (this.grid.getColumns() + 1) * this.grid.getCellSize().x, (this.grid.getRows() + 1) * this.grid.getCellSize().y);
+            
+            graphics.setFont(new Font("ComicSansMS", Font.BOLD, 60));
+            graphics.drawString("Your Score: " + this.score, 50, 50);
+
             if (this.grid != null) {
                 //grid.paintComponent(graphics);
                 if (this.lollipops != null) {
