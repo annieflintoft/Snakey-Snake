@@ -66,10 +66,8 @@ public class Snake {
         for (int i = 1; i < body.size(); i++) {
             if (body.get(i).equals(getHead())) {
                 return true;
-            }
-            
+            }   
         }
-        
         return false;
     }
     
