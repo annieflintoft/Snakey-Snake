@@ -9,7 +9,7 @@ package snakey.snake;
  * @author macbook
  */
 public enum GameState {
-    STARTING, RUNNING, PAUSED, ENDED
+    STARTING, RUNNING, PAUSED, ENDED, INSTRUCTIONS
     
 }
    

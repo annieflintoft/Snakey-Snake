@@ -103,6 +103,8 @@ class SnakeEnvironment extends Environment {
         this.snake.getBody().add(new Point(5, 4));
         this.snake.getBody().add(new Point(5, 3));
         this.snake.getBody().add(new Point(5, 2));
+
+
     }
 
     private Point getRandomGridLocation() {
@@ -113,9 +115,6 @@ class SnakeEnvironment extends Environment {
     @Override
     public void timerTaskHandler() {
         if (gameState == GameState.RUNNING) {
-
-
-
             if (snake != null) {
                 if (moveCounter <= 0) {
                     snake.move();
@@ -150,6 +149,8 @@ class SnakeEnvironment extends Environment {
                 gameState = GameState.RUNNING;
             } else if (gameState == GameState.STARTING) {
                 gameState = GameState.RUNNING;
+            } else if (gameState == GameState.INSTRUCTIONS) {
+                gameState = GameState.STARTING;
             }
 
 
@@ -170,7 +171,12 @@ class SnakeEnvironment extends Environment {
 
         } else if (e.getKeyCode() == KeyEvent.VK_SPACE) {
             gameState = GameState.PAUSED;
+
+        } else if (e.getKeyCode() == KeyEvent.VK_I) {
+            gameState = GameState.INSTRUCTIONS;
         }
+
+
     }
 
     @Override
@@ -187,45 +193,170 @@ class SnakeEnvironment extends Environment {
         if (gameState == GameState.STARTING) {
             graphics.setColor(Color.BLACK);
             graphics.setFont(new Font("ComicSansMS", Font.CENTER_BASELINE, 100));
-            graphics.drawString("Snakey Snake", 120, 250);
-            
+            graphics.drawString("Snakey Snake", 121, 251);
+
             graphics.setColor(Color.PINK);
             graphics.setFont(new Font("ComicSansMS", Font.CENTER_BASELINE, 100));
             graphics.drawString("Snakey Snake", 125, 255);
-            
+
+            graphics.setColor(Color.BLACK);
+            graphics.fillOval(213, 361, 119, 59);
+
+            graphics.setColor(Color.WHITE);
+            graphics.fillOval(215, 363, 115, 55);
+
             graphics.setColor(Color.BLACK);
             graphics.setFont(new Font("ComicSansMS", Font.CENTER_BASELINE, 35));
             graphics.drawString("Start", 225, 400);
-            
+
             graphics.setColor(Color.PINK);
             graphics.setFont(new Font("ComicSansMS", Font.CENTER_BASELINE, 35));
             graphics.drawString("Start", 227, 402);
-            
+
+            graphics.setColor(Color.BLACK);
+            graphics.fillOval(458, 345, 234, 89);
+
+            graphics.setColor(Color.WHITE);
+            graphics.fillOval(460, 347, 230, 85);
+
             graphics.setColor(Color.BLACK);
             graphics.setFont(new Font("ComicSansMS", Font.CENTER_BASELINE, 35));
             graphics.drawString("Instructions", 475, 400);
-            
+
             graphics.setColor(Color.PINK);
             graphics.setFont(new Font("ComicSansMS", Font.CENTER_BASELINE, 35));
-            graphics.drawString("Instructions", 475, 400);
+            graphics.drawString("Instructions", 477, 402);
+
+            graphics.setColor(Color.BLACK);
+            graphics.setFont(new Font("ComicSansMS", Font.CENTER_BASELINE, 17));
+            graphics.drawString("Press the I", 528, 455);
+
+            graphics.setColor(Color.BLACK);
+            graphics.setFont(new Font("ComicSansMS", Font.CENTER_BASELINE, 17));
+            graphics.drawString("key for", 545, 474);
+
+            graphics.setColor(Color.BLACK);
+            graphics.setFont(new Font("ComicSansMS", Font.CENTER_BASELINE, 17));
+            graphics.drawString("instructions", 531, 494);
+
+            graphics.setColor(Color.BLACK);
+            graphics.setFont(new Font("ComicSansMS", Font.CENTER_BASELINE, 17));
+            graphics.drawString("Press the", 232, 440);
+
+            graphics.setColor(Color.BLACK);
+            graphics.setFont(new Font("ComicSansMS", Font.CENTER_BASELINE, 17));
+            graphics.drawString("spacebar", 232, 460);
+
+            graphics.setColor(Color.BLACK);
+            graphics.setFont(new Font("ComicSansMS", Font.CENTER_BASELINE, 17));
+            graphics.drawString("to begin!", 232, 480);
+
+        } else if (gameState == GameState.INSTRUCTIONS) {
+            graphics.setColor(Color.BLACK);
+            graphics.setFont(new Font("ComicSansMS", Font.CENTER_BASELINE, 100));
+            graphics.drawString("Instructions", 147, 97);
+
+            graphics.setColor(Color.PINK);
+            graphics.setFont(new Font("ComicSansMS", Font.CENTER_BASELINE, 100));
+            graphics.drawString("Instructions", 150, 100);
             
-//            Annie - put all the start stuff here
+            graphics.setColor(Color.BLACK);
+            graphics.setFont(new Font("ComicSansMS", Font.CENTER_BASELINE, 17));
+            graphics.drawString("1. Use the up, down, left, and right keys to control your snake.", 50, 140);
+            
+            graphics.setColor(Color.BLACK);
+            graphics.setFont(new Font("ComicSansMS", Font.CENTER_BASELINE, 17));
+            graphics.drawString("2. Collect lollipops, stars, and diamonds for points.", 50, 170);
+            
+            graphics.setColor(Color.BLACK);
+            graphics.setFont(new Font("ComicSansMS", Font.CENTER_BASELINE, 17));
+            graphics.drawString("3. Avoid bombs, they will burn you.", 50, 200);
+            
+            graphics.setColor(Color.BLACK);
+            graphics.setFont(new Font("ComicSansMS", Font.CENTER_BASELINE, 17));
+            graphics.drawString("4. To heal yourself from a burn, eat a water bucket.", 50, 230);
+            
+            graphics.setColor(Color.BLACK);
+            graphics.setFont(new Font("ComicSansMS", Font.CENTER_BASELINE, 17));
+            graphics.drawString("5. Poison bottles will kill you.", 50, 260);
+            
+            graphics.setColor(Color.BLACK);
+            graphics.setFont(new Font("ComicSansMS", Font.CENTER_BASELINE, 17));
+            graphics.drawString("6. Eating different things will adjust your speed, so be careful.", 50, 290);
+            
+            graphics.setColor(Color.BLACK);
+            graphics.setFont(new Font("ComicSansMS", Font.CENTER_BASELINE, 17));
+            graphics.drawString("7. You can go through the walls and appear on the opposite sides.", 50, 320);
+            
+            graphics.setColor(Color.BLACK);
+            graphics.setFont(new Font("ComicSansMS", Font.CENTER_BASELINE, 17));
+            graphics.drawString("8. Do not hit yourself, you will die.", 50, 350);
+            
+            graphics.setColor(Color.BLACK);
+            graphics.setFont(new Font("ComicSansMS", Font.CENTER_BASELINE, 17));
+            graphics.drawString("9. Lollipops are worth 10 points.", 50, 380);
+            
+            graphics.setColor(Color.BLACK);
+            graphics.setFont(new Font("ComicSansMS", Font.CENTER_BASELINE, 17));
+            graphics.drawString("10. Stars are worth 20 points.", 50, 410);
+            
+            graphics.setColor(Color.BLACK);
+            graphics.setFont(new Font("ComicSansMS", Font.CENTER_BASELINE, 17));
+            graphics.drawString("11. Diamonds are worth 30 points.", 50, 440);
+            
+            graphics.setColor(Color.BLACK);
+            graphics.setFont(new Font("ComicSansMS", Font.CENTER_BASELINE, 17));
+            graphics.drawString("12. Bombs are worth -30 points. ", 50, 470);
+            
+            graphics.setColor(Color.BLACK);
+            graphics.setFont(new Font("ComicSansMS", Font.CENTER_BASELINE, 17));
+            graphics.drawString("13. Water buckets do not affect your score.", 50, 500);
+            
+            graphics.setColor(Color.BLACK);
+            graphics.setFont(new Font("ComicSansMS", Font.CENTER_BASELINE, 17));
+            graphics.drawString("Press the spacebar to", 720, 595);
+            
+            graphics.setColor(Color.BLACK);
+            graphics.setFont(new Font("ComicSansMS", Font.CENTER_BASELINE, 17));
+            graphics.drawString("return to the main menu.", 700, 618);
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
             
             
         } else if (gameState == GameState.ENDED) {
             graphics.setColor(Color.BLACK);
+            graphics.setFont(new Font("ComicSansMS", Font.CENTER_BASELINE, 100));
+            graphics.drawString("GAME OVER", 131, 321);
 
-            graphics.setFont(new Font("ArialBlack", Font.CENTER_BASELINE, 100));
-            graphics.drawString("GAME OVER", 120, 300);
+            graphics.setColor(Color.PINK);
+            graphics.setFont(new Font("ComicSansMS", Font.CENTER_BASELINE, 100));
+            graphics.drawString("GAME OVER", 135, 325);
+
         } else if (gameState == GameState.PAUSED) {
             graphics.setFont(new Font("ComicSansMS", Font.CENTER_BASELINE, 100));
             graphics.drawString("PAUSED", 120, 300);
-        } else {
-            
+
+        } else if (gameState == GameState.RUNNING) {
             graphics.drawRect(this.grid.getPosition().x, this.grid.getPosition().y, (this.grid.getColumns() + 1) * this.grid.getCellSize().x, (this.grid.getRows() + 1) * this.grid.getCellSize().y);
-            
+
+
+            graphics.setColor(Color.BLACK);
             graphics.setFont(new Font("ComicSansMS", Font.BOLD, 60));
-            graphics.drawString("Your Score: " + this.score, 50, 50);
+            graphics.drawString("Your Score: " + this.score, 52, 67);
+
+            graphics.setColor(Color.PINK);
+            graphics.setFont(new Font("ComicSansMS", Font.BOLD, 60));
+            graphics.drawString("Your Score: " + this.score, 55, 70);
+
+
 
             if (this.grid != null) {
                 //grid.paintComponent(graphics);
@@ -295,6 +426,7 @@ class SnakeEnvironment extends Environment {
                     graphics.drawOval(cellLocation.x, cellLocation.y, grid.getCellWidth(), grid.getCellHeight());
                 }
             }
+
         }
     }
 
