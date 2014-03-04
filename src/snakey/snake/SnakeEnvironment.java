@@ -142,7 +142,7 @@ class SnakeEnvironment extends Environment {
     @Override
     public void keyPressedHandler(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-
+            
             if (gameState == GameState.RUNNING) {
                 gameState = GameState.PAUSED;
             } else if (gameState == GameState.PAUSED) {
@@ -150,6 +150,8 @@ class SnakeEnvironment extends Environment {
             } else if (gameState == GameState.STARTING) {
                 gameState = GameState.RUNNING;
             } else if (gameState == GameState.INSTRUCTIONS) {
+                gameState = GameState.STARTING;
+            } else if (gameState == GameState.ENDED) {
                 gameState = GameState.STARTING;
             }
 
@@ -314,24 +316,17 @@ class SnakeEnvironment extends Environment {
             
             graphics.setColor(Color.BLACK);
             graphics.setFont(new Font("ComicSansMS", Font.CENTER_BASELINE, 17));
+            graphics.drawString("14. If you die, press the spacebar to restart.", 50, 530);
+            
+            graphics.setColor(Color.BLACK);
+            graphics.setFont(new Font("ComicSansMS", Font.CENTER_BASELINE, 17));
             graphics.drawString("Press the spacebar to", 720, 595);
             
             graphics.setColor(Color.BLACK);
             graphics.setFont(new Font("ComicSansMS", Font.CENTER_BASELINE, 17));
             graphics.drawString("return to the main menu.", 700, 618);
             
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-        } else if (gameState == GameState.ENDED) {
+} else if (gameState == GameState.ENDED) {
             graphics.setColor(Color.BLACK);
             graphics.setFont(new Font("ComicSansMS", Font.CENTER_BASELINE, 100));
             graphics.drawString("GAME OVER", 131, 321);
@@ -339,6 +334,10 @@ class SnakeEnvironment extends Environment {
             graphics.setColor(Color.PINK);
             graphics.setFont(new Font("ComicSansMS", Font.CENTER_BASELINE, 100));
             graphics.drawString("GAME OVER", 135, 325);
+            
+            graphics.setColor(Color.BLACK);
+            graphics.setFont(new Font("ComicSansMS", Font.CENTER_BASELINE, 17));
+            graphics.drawString("Press spacebar to restart!", 445, 355);
 
         } else if (gameState == GameState.PAUSED) {
             graphics.setFont(new Font("ComicSansMS", Font.CENTER_BASELINE, 100));
